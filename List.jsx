@@ -9,7 +9,8 @@ class List extends Component {
         super(props)
     }
     state = {
-        checkedKeys: []
+        checkedKeys: [],
+        allChecked:false
     }
     static propTypes = {
         prefixCls: PropTypes.string,
@@ -22,20 +23,31 @@ class List extends Component {
 
     onCheck = (itemNode) => {
         const { props, state } = this;
-        const checked =  itemNode.state.checked       
+        const checked =  itemNode.state.checked 
+        console.log(state.checkedKeys);      
         const eventObj = {
             event: 'check',
             node: itemNode,
             checked
         }
         this.setState({
-            checkedKeys:  _xor(this.state.checkedKeys, [itemNode.props.eventKey]),
+            checkedKeys:  _xor(state.checkedKeys, [itemNode.props.eventKey]),
         },()=>{
+            console.log(state.checkedKeys);
+            if(state.checkedKeys.length===props.dataSource.length){
+                this.setState({allChecked:true})
+            } else{
+                this.setState({allChecked:false})
+            }
             props.onCheck(this.state.checkedKeys)
         })
         
     }
-
+    setAllChildren = (config)=>{
+        return React.Children.map(this.props.children,child=>{
+            return React.cloneElement(child,config)
+        })
+    }
     renderListItem = (item, index, level = 0) => {
         const props = this.props;
         const key = item.key
