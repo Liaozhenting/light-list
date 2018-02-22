@@ -39,12 +39,12 @@ class List extends Component {
             }
             this.props.onCheck(this.state.checkedKeys)
         })
+        // console.log(itemNode)
+        // this.setAllChildren()
         
     }
-    setAllChildren = (config)=>{
-        return React.Children.map(this.props.children,child=>{
-            return React.cloneElement(child,config)
-        })
+    setAllChildren = ()=>{
+        this.setState({checkedKeys:this.props.dataSource})
     }
     renderListItem = (item, index, level = 0) => {
         const props = this.props;
@@ -52,6 +52,8 @@ class List extends Component {
         const childProps = {
             root: this,
             eventKey: key,
+            checkedKeys:this.state.checkedKeys
+            
         }
         return React.cloneElement(item, childProps)
     }

@@ -6,11 +6,11 @@ class Item extends Component {
         super(props)
     }
     state={
-        checked:false
+        // checked:false
     }
     static defaultProps = {
         prefixCls: 'light-list',
-        // checkable: true,
+        // checked: false,
         defaultCheckedKeys: [],
         onCheck: noop,
     };
@@ -28,7 +28,7 @@ class Item extends Component {
         const checkboxCls = {
             [`${prefixCls}-checkbox`]: true,
         };
-        if (state.checked) {
+        if (props.eventKey in props.checkedKeys) {
             checkboxCls[`${prefixCls}-checkbox-checked`] = true;
         }
         return (
